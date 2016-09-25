@@ -6,11 +6,19 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Inicio</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <form action="/SistemaMicros/LoginServlet" method="post" >  
+            Nombre Usuario:<input  type="text" name="usuario" value=" "/><br/>  
+            Contraseña:<input type="password" name="contraseña" value=" "/><br/>  
+            <input type="submit" value="Login"/>
+            <input type="submit" value="Ingresar Anonimo"/>   
+        </form>
+        <form action="/SistemaMicros/FormularioJSP.jsp" method="post">
+            <input type="submit" value="Registrarse"/>              
+        </form>
     </body>
 </html>
