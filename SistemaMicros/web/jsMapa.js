@@ -9,45 +9,83 @@
 var map;
 try
 {
-    //Centro inicial del mapa
-    var center = ol.proj.fromLonLat([-71.2145493748054, -33.68552322652857]);
 
-    //Controles del mapa
-    var interaction = new ol.interaction.DragRotateAndZoom();
-
-    //Creacion del mapa
-    try
+    function crearMapa()
     {
-        map = new ol.Map({
-            target: 'mapContent', //div en la que el mapa se dibujará
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
+
+        //Centro inicial del mapa
+        var center = ol.proj.fromLonLat([-71.2145493748054, -33.68552322652857]);
+
+        //Controles del mapa
+        var interaction = new ol.interaction.DragRotateAndZoom();
+
+        //Creacion del mapa
+        try
+        {
+            map = new ol.Map({
+                target: 'mapContent', //div en la que el mapa se dibujará
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: center,
+                    zoom: 16
                 })
-            ],
-            view: new ol.View({
-                center: center,
-                zoom: 16
-            })
-        });
-    } catch (err)
-    {
-        alert("error creating map : " + err.message);
+            });
+
+            map.on('click', function (event)
+            {
+                try
+                {
+
+                    var overlay = new ol.Overlay({
+                        element: document.getElementById('overlayInfo'),
+                        positioning: 'bottom-center'
+                    });
+
+                    // extract the spatial coordinate of the click event in map projection units
+                    var coord = event.coordinate;
+
+                    // transform it to decimal degrees
+                    var degrees = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+
+                    // format a human readable version
+                    var hdms = degrees; //ol.coordinate.toStringHDMS(degrees);
+
+                    // update the overlay element's content
+                    var element = overlay.getElement();
+                    element.innerHTML = hdms;
+
+                    // position the element (using the coordinate in the map's projection)
+                    overlay.setPosition(coord);
+
+                    // and add it to the map
+                    map.addOverlay(overlay);
+
+                } catch (err)
+                {
+                    alert("Error while handling click event: " + err.message);
+                }
+            });
+
+        } catch (err)
+        {
+            alert("error creating map : " + err.message);
+        }
     }
-    map.on('click', function (event)
+
+    function zoom(direction)
     {
         try
         {
-            var coord = event.coordinate;
-            var degrees = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
-            var coordContainer = document.getElementById('coordContainer');
-            coordContainer.innerHTML = degrees;
+            map.getView().setZoom(map.getView().getZoom() + (direction ? 1 : -1));
         } catch (err)
         {
-            alert("map error on onClick(): " + err.message);
+            alert("error while zooming : " + err.message);
         }
-    });
-
+    }
 
     function agregarLugar(nombre, x, y)
     {
@@ -67,37 +105,7 @@ try
         }
     }
 
-    map.on('click', function (event)
-    {
-        try
-        {
 
-            var overlay = $(document).find('#overlayInfo');
-
-            // extract the spatial coordinate of the click event in map projection units
-            var coord = event.coordinate;
-
-            // transform it to decimal degrees
-            var degrees = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
-
-            // format a human readable version
-            var hdms = ol.coordinate.toStringHDMS(degrees);
-
-            // update the overlay element's content
-            var element = overlay.getElement();
-            element.innerHTML = hdms;
-
-            // position the element (using the coordinate in the map's projection)
-            overlay.setPosition(coord);
-
-            // and add it to the map
-            map.addOverlay(overlay);
-
-        } catch (err)
-        {
-            alert("Error while handling click event: " + err.message);
-        }
-    });
 
     $.urlParam = function (name)
     {
@@ -114,8 +122,8 @@ try
             }
         } catch (err)
         {
-            //alert("error on $.urlParam()");
-            //alert(err.message);
+            alert("error on $.urlParam()");
+            alert(err.message);
 
         }
     };
@@ -143,3 +151,21 @@ try
  var icon = new ol.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
  markers.addMarker(new ol.Marker(new ol.LonLat(-71.2145493748054, -33.68552322652857), icon));
  markers.addMarker(new ol.Marker(new ol.LonLat(-71.2145493748054, -33.68552322652857), icon.clone()));*/
+
+
+
+/*
+ map.on('click', function (event)
+ {
+ try
+ {
+ var coord = event.coordinate;
+ var degrees = ol.proj.transform(coord, 'EPSG:3857', 'EPSG:4326');
+ var coordContainer = document.getElementById('coordContainer');
+ coordContainer.innerHTML = degrees;
+ } catch (err)
+ {
+ alert("map error on onClick(): " + err.message);
+ }
+ });
+ */

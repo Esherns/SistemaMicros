@@ -1,8 +1,7 @@
 <%@page import="Servlets.ParaderosYMicrosServlet"%>
 <%@page import="Clases.Micro"%>
 <%@page import="Clases.Paradero"%>
-<!-- -->
-<%-- 
+e<%-- 
     Document   : mapa
     Created on : 16-09-2016, 20:55:47
     Author     : Diego
@@ -14,16 +13,15 @@
 <!DOCTYPE html> 
 <html>
     <head>
-        <script src="jsMapa.js" type="text/javascript"></script>
-        <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <link href="mapa.css" rel="stylesheet" type="text/css"/>
         <script src="js/libs/ol3/ol.js" type="text/javascript"></script>
+        <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <script src="jsMapa.js" type="text/javascript"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body >
-        <%!
-            public static HashMap<String, Double[]> lugares = new HashMap<String, Double[]>();
-        %>
+
+    <body>
         <%
 
             //Obteniendo información del servlet
@@ -32,28 +30,31 @@
             ArrayList<Micro> micros;
             micros = ParaderosYMicrosServlet.getMicros();
         %>   
+        <script type="text/javascript">
+            $(document).ready(function ()
+            {
+                crearMapa();
+            });
+
+        </script>
         <div class="mainContainer">
 
+            <div id="mapContent"></div>
+            <input type="button" value="+" name="zoom+"  onclick="zoom(true)" />
+            <input type="button" value="-" name="zoom-" onclick="zoom(false)" />
+            <select name="ddlParaderos">
+                <option>asd</option>
+                <option>asd</option>
+            </select>
+            <select name="ddlMicros">
+                <option>asd</option>
+                <option>asd</option>
+            </select>
             <form action="main.jsp">
-                <input class="boton" type="submit" value="Volver"
-                       style="position:absolute; top: 10%; left: 60px;">
+                <input class="boton" type="submit" value="Volver">
             </form>
 
-            <div class="simbolo" id="SimboloDeUbicacion" style="background-color: red">    
-                <div style="position:relative;left: 55px;width: 100px">
-                    Ubicacion Buscada                   
-                </div>    
-            </div>
-
-            <div  class="simbolo" id="SimboloDeUbicacionActual" style="background-color: yellow">    
-                <div style="position:relative; left: 55px;width: 100px">
-                    Ubicacion Actual                   
-                </div>    
-            </div>
-
-            <div id="coordContainer"></div>
-            <div id="mapContent"></div>
-
+            <div id="overlayInfo"></div>
 
         </div>
     </body>
