@@ -10,8 +10,16 @@ and open the template in the editor.
 #mapContent{
     position: relative;
     left: 10px;
-    height: 600px;
-    width: 600px;
+    height: 450px;
+    width: 450px;
     border-width: 3px;
     border-style: solid;
+}
+
+.puntoMapa
+{
+    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+    background-color: red;
 }

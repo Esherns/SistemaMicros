@@ -14,7 +14,7 @@ try
     {
 
         //Centro inicial del mapa
-        var center = ol.proj.fromLonLat([-71.2145493748054, -33.68552322652857]);
+        var center = ol.proj.fromLonLat([-70.73015156724392,-33.365678279804115]);
 
         //Controles del mapa
         var interaction = new ol.interaction.DragRotateAndZoom();
@@ -87,17 +87,21 @@ try
         }
     }
 
-    function agregarLugar(nombre, x, y)
+    function agregarLugar(nombre, coords)
     {
         try
         {
+            nombre += 'point';
+            var element = '<div class="puntoMapa" id="'+nombre+'"></div>';
+            alert('element = '+element);
+            $('.mainContainer').html($('.mainContainer').html() + element);
             var nuevaUbicacion = new ol.Overlay({
-                //div que se usará como marcador
-                element: document.getElementById(nombre + "Ubicacion")
+                element: document.getElementById(nombre)
             });
-            var auxX = parseFloat(x),
-                    auxY = parseFloat(y);
-            nuevaUbicacion.setPosition(ol.proj.fromLonLat([auxX, auxY]));
+            nuevaUbicacion.setPosition(coords);
+            //alert('nuevaUbicacion element: '+nuevaUbicacion.getElement());
+            //alert('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
+            
             map.addOverlay(nuevaUbicacion);
         } catch (err)
         {
