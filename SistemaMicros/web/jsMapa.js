@@ -92,7 +92,7 @@ try
         try
         {
             nombre += 'point';
-            var element = '<div class="puntoMapa" id="'+nombre+'"></div>';
+            var element = "<div class= puntoMapa id="+nombre+"></div>";
             alert('element = '+element);
             $('.mainContainer').html($('.mainContainer').html() + element);
             var nuevaUbicacion = new ol.Overlay({
@@ -103,6 +103,7 @@ try
             //alert('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
             
             map.addOverlay(nuevaUbicacion);
+            
         } catch (err)
         {
             alert("error on agregarLugar() : " + err.message);

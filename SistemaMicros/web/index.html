@@ -13,10 +13,13 @@ and open the template in the editor.
     <body>
         <form action="/SistemaMicros/LoginServlet" method="post" >  
             Nombre Usuario:<input  type="text" name="usuario" value=" "/><br/>  
-            Contraseña:<input type="password" name="contraseña" value=" "/><br/>  
-            <input type="submit" value="Login"/>
-            <input type="submit" value="Ingresar Anonimo"/>   
+            Contraseña:<input type="password" name="pass" value=" "/><br/>  
+            <input type="submit" value="Login"/> 
         </form>
+        <form action="/SistemaMicros/mapa.jsp" method="post" >
+            <input type="submit" value="Ingresar Anonimo"/>  
+        </form>  
+       
         <form action="/SistemaMicros/FormularioJSP.jsp" method="post">
             <input type="submit" value="Registrarse"/>              
         </form>

@@ -97,12 +97,47 @@ e<%--
                         var coords = ol.proj.fromLonLat([idX, idY]);
                         //alert(coords);
                         //map.getView().setCenter(coords);
-                        agregarLugar(i + j, coords);
+                        
+                        //agregarLugar(i + j, coords);
                     } catch (err)
                     {
                         alert('Error en dibujarMicro() : '+err.message);
                     }
 
+                }
+                
+            function mostrarInfo()
+                {
+                   
+                   var y = document.getElementById("ddlParaderos").selectedIndex;
+                   var yx = document.getElementById("ddlParaderos")[y].text;
+                   var z = document.getElementById("ddlMicros").selectedIndex;
+                   var zx = document.getElementById("ddlMicros")[z].text;
+                   <%
+                    String s1 =  "<script>document.writeln(yx)</script>";
+                    String s2 =  "<script>document.writeln(zx)</script>";
+                    String s3 ="";
+                    for ( Paradero p : paraderos )
+                   {
+                       
+                      if(p.getNombre().equals(s1))
+                      {
+                         
+                        for (Micro m : p.getMicros()) 
+                        {
+                            if(m.getCodigo().equals("312"))
+                            {
+                                s3 = "Nombre: " + m.getCodigo() + " Horario: " + m.getHorario()+ " Comuna: " +m.getComuna();
+                                break;
+                            }
+
+                        }
+                      }
+                   }
+                   %>
+                   
+                   var x = "<%=s3%>";
+                   document.getElementById("info").innerHTML = x;
                 }
 
             </script>      
@@ -119,15 +154,17 @@ e<%--
                     }
                 %>
             </select>
-            <select name="ddlMicros" onchange="dibujarMicro()" id="ddlMicros"  disabled="true"> 
+            <select name="ddlMicros" onchange="dibujarMicro();mostrarInfo();" id="ddlMicros"  disabled="true"> 
                 <option>Please select an option</option>
+
             </select>
-            <form action="main.jsp">
+            <form action="index.html">
                 <input class="boton" type="submit" value="Volver">
             </form>
 
             <div id="overlayInfo"></div>
 
         </div>
+        <p id="info"></p>
     </body>
 </html>
