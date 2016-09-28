@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25-09-2016, 19:47:08
+    Author     : Diego
+*/
+#mapContent{
+    position: relative;
+    left: 10px;
+    height: 450px;
+    width: 450px;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.puntoMapa
+{
+    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+    background-color: red;
+}
