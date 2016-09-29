@@ -91,25 +91,25 @@ try
     {
         try
         {
-            console.Log('Entered agregarLugar()');
+            console.log('Entered agregarLugar()');
             nombre += 'point';
-            console.Log('nombre: '+nombre+'\ncoords: '+coords+'\npointClass: '+pointClass);
+            console.log('nombre: '+nombre+'\ncoords: '+coords+'\npointClass: '+pointClass);
             
             var element = '<div class="'+pointClass+'" id="'+nombre+'"></div>';
-            console.Log('element: '+element);
-            console.Log('');
-            $('.mainContainer').html($('.mainContainer').html() + element);
-            console.Log('New mainContainer html: \n'+$('.mainContainer').html());
+            console.log('element: '+element);
+            //console.log('');
+            $('.mainContainer').prepend(element);
+//            selectedMicroconsole.log('New mainContainer html: \n'+$('.mainContainer').html());
             var nuevaUbicacion = new ol.Overlay({
                 element: document.getElementById(nombre)
             });
             nuevaUbicacion.setPosition(coords);
             
-            console.Log('nuevaUbicacion element: '+nuevaUbicacion.getElement());
-            console.Log('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
+            console.log('nuevaUbicacion element: '+nuevaUbicacion.getElement());
+            console.log('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
             
             map.addOverlay(nuevaUbicacion);
-            console.Log('map Overlays: '+map.getOverlays)
+            console.log('map Overlays: '+map.getOverlays());
         } catch (err)
         {
             alert("error on agregarLugar() : " + err.message);
