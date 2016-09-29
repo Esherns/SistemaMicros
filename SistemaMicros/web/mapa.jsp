@@ -28,24 +28,61 @@ e<%--
             //Obteniendo información del servlet
             ArrayList<Paradero> paraderos;
             paraderos = ParaderosYMicrosServlet.getParaderos();
+            ArrayList<Micro> micros;
+            micros = ParaderosYMicrosServlet.getMicros();
 
             for (Paradero p : paraderos)
             {
         %>
         <div hidden="true" id="<%=p.getNombre()%>">
+            <div id="<%=p.getNombre() + "CoordenadaX"%>" ><%= p.getCoordenadas()[0]%></div>
+            <div id="<%=p.getNombre() + "CoordenadaY"%>" ><%= p.getCoordenadas()[1]%></div>
             <%
                 for (Micro m : p.getMicros())
                 {
             %> 
             <div id="<%=p.getNombre() + m.getCodigo()%>">
                 <div class="<%=p.getNombre() + "nombre"%>"><%= m.getCodigo()%></div>
-                <div id="<%=p.getNombre() + m.getCodigo() + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
-                <div id="<%=p.getNombre() + m.getCodigo() + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
+                <div id="<%=p.getNombre() + m.getCodigo()
+                                     + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
+                <div id="<%=p.getNombre() + m.getCodigo()
+                                      + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
             </div>
             <%
                 }
             %>
         </div> 
+        <%
+            }
+            for (Micro m : micros)
+            {
+        %>
+
+        <div class="infoMicro" id="<%= m.getCodigo()%>" hidden="true" >
+            <table border="1">
+                <thead>
+                    <tr>
+                        <td>Codigo</td>
+                        <td><%= m.getCodigo()%></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Horario</td>
+                        <td><%= m.getHorario()%></td>
+                    </tr>
+                    <tr>
+                        <td>Comuna</td>
+                        <td><%= m.getComuna()%></td>
+                    </tr>
+                    <tr>
+                        <td>Paradero Actual</td>
+                        <td><%= m.getParaderoActual().getNombre()%></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <%
             }
 
@@ -61,23 +98,32 @@ e<%--
             <script>
                 function cargarMicros()
                 {
-                    var i = $('#ddlParaderos :selected').text();
-                    if ('Please select an option' === i)
+                    var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
+                    if ('Please select an option' === selectedParadero)
                     {
                         $('#ddlMicros').html('<option>Please select an option</option>');
                         $('#ddlMicros').prop('disabled', 'true');
                         return;
                     }
                     //alert('i = ' + i);
+                    //populate dropdownList
                     var result = '<option>Please select an option</option>';
-                    $('#' + i).children().each(function (index)
+                    $('#' + selectedParadero).children().each(function (index)
                     {
-                        var nom = $(this).find('.' + i + 'nombre').text();
+                        var nom = $(this).find('.' + selectedParadero + 'nombre').text();
                         result += '<option>' + nom + '</option>';
                     });
                     $('#ddlMicros').html(result);
                     $('#ddlMicros').prop('disabled', false);
 
+                    //draw on map
+                    var idX = parseFloat($('#' + selectedParadero  + 'coordenadaX').text());
+                    var idY = parseFloat($('#' + selectedParadero  + 'coordenadaY').text());
+                    //alert('idX = ' + idX+'\nidY = '+idY);
+                    var coords = ol.proj.fromLonLat([idX, idY]);
+                    //alert(coords);
+
+                    agregarLugar(selectedParadero, coords, "puntoMapaDeLaMuerte");
                 }
 
                 function dibujarMicro()
@@ -85,59 +131,77 @@ e<%--
                     try
                     {
 
-                        var i = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
-                        var j = $('#ddlMicros :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
-                        if (j === 'Please select an option')
+                        var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
+                        var selectedMicro = $('#ddlMicros :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
+                        if (selectedMicro === 'Please select an option')
                         {
                             return;
                         }
-                        var idX = parseFloat($('#' + i + j + 'coordenadaX').text());
-                        var idY = parseFloat($('#' + i + j + 'coordenadaY').text());
+                        var idX = parseFloat($('#' + selectedParadero + selectedMicro + 'coordenadaX').text());
+                        var idY = parseFloat($('#' + selectedParadero + selectedMicro + 'coordenadaY').text());
                         //alert('idX = ' + idX+'\nidY = '+idY);
                         var coords = ol.proj.fromLonLat([idX, idY]);
                         //alert(coords);
-                        //map.getView().setCenter(coords);
-                        
-                        //agregarLugar(i + j, coords);
+
+                        agregarLugar(i + j, coords, "puntoMapa");
                     } catch (err)
                     {
-                        alert('Error en dibujarMicro() : '+err.message);
+                        alert('Error en dibujarMicro() : ' + err.message);
                     }
 
                 }
-                
-            function mostrarInfo()
-                {
-                   
-                   var y = document.getElementById("ddlParaderos").selectedIndex;
-                   var yx = document.getElementById("ddlParaderos")[y].text;
-                   var z = document.getElementById("ddlMicros").selectedIndex;
-                   var zx = document.getElementById("ddlMicros")[z].text;
-                   <%
-                    String s1 =  "<script>document.writeln(yx)</script>";
-                    String s2 =  "<script>document.writeln(zx)</script>";
-                    String s3 ="";
-                    for ( Paradero p : paraderos )
-                   {
-                       
-                      if(p.getNombre().equals(s1))
-                      {
-                         
-                        for (Micro m : p.getMicros()) 
-                        {
-                            if(m.getCodigo().equals("312"))
-                            {
-                                s3 = "Nombre: " + m.getCodigo() + " Horario: " + m.getHorario()+ " Comuna: " +m.getComuna();
-                                break;
-                            }
 
+                function mostrarInfo()
+                {
+                    //Prueba 
+                    try
+                    {
+                        console.log('Entering Prueba de Diego');
+                        var selectedMicro = $('#ddlMicros :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
+                        console.log('Selected micro : ' + selectedMicro);
+                        var microInfo = $('#' + selectedMicro).html();
+                        console.log('Micro\'s info : ' + $(microInfo).text());
+                        $('#infoMicro').html(microInfo);
+                        $('#infoMicro').attr('hidden', false);
+                    } catch (err)
+                    {
+                        alert('Error on Prueba de Diego: ' + err.message);
+                        console.log('Error on Prueba de Diego: ' + err.message);
+                    }
+                    //Prueba 
+
+
+                    * /
+                <% /*                   String s1 = "<script>document.writeln(yx)</script>";
+                    String s2 = "<script>document.writeln(zx)</script>";
+                    String s3 = "";
+                    for (Paradero p : paraderos)
+                    {
+
+                        if (p.getNombre().equals(s1))
+                        {
+
+                            for (Micro m : p.getMicros())
+                            {
+                                if (m.getCodigo().equals("312"))
+                                {
+                                    s3 = "Nombre: " + m.getCodigo()
+                                            + " Horario: " + m.getHorario()
+                                            + " Comuna: " + m.getComuna();
+                                    break;
+                                }
+
+                            }
                         }
-                      }
-                   }
-                   %>
-                   
-                   var x = "<%=s3%>";
-                   document.getElementById("info").innerHTML = x;
+                    }
+                     */%>
+                    /*    
+                     var x = "< %=//s3%>";
+                     var y = document.getElementById("ddlParaderos").selectedIndex;
+                     var yx = document.getElementById("ddlParaderos")[y].text;
+                     var z = document.getElementById("ddlMicros").selectedIndex;
+                     var zx = document.getElementById("ddlMicros")[z].text;
+                     document.getElementById("info").innerHTML = x;*/
                 }
 
             </script>      
@@ -158,6 +222,9 @@ e<%--
                 <option>Please select an option</option>
 
             </select>
+            <div id="infoMicro" hidden="true">
+
+            </div>
             <form action="index.html">
                 <input class="boton" type="submit" value="Volver">
             </form>

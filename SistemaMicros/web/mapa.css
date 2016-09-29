@@ -23,3 +23,10 @@ and open the template in the editor.
     width: 30px;
     background-color: red;
 }
+.puntoMapaDeLaMuerte
+{
+    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+    background-color: blue;
+}

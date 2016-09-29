@@ -91,19 +91,25 @@ try
     {
         try
         {
+            console.Log('Entered agregarLugar()');
             nombre += 'point';
+            console.Log('nombre: '+nombre+'\ncoords: '+coords+'\npointClass: '+pointClass);
+            
             var element = '<div class="'+pointClass+'" id="'+nombre+'"></div>';
-            alert('element = '+element);
+            console.Log('element: '+element);
+            console.Log('');
             $('.mainContainer').html($('.mainContainer').html() + element);
+            console.Log('New mainContainer html: \n'+$('.mainContainer').html());
             var nuevaUbicacion = new ol.Overlay({
                 element: document.getElementById(nombre)
             });
             nuevaUbicacion.setPosition(coords);
-            //alert('nuevaUbicacion element: '+nuevaUbicacion.getElement());
-            //alert('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
+            
+            console.Log('nuevaUbicacion element: '+nuevaUbicacion.getElement());
+            console.Log('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
             
             map.addOverlay(nuevaUbicacion);
-            
+            console.Log('map Overlays: '+map.getOverlays)
         } catch (err)
         {
             alert("error on agregarLugar() : " + err.message);
