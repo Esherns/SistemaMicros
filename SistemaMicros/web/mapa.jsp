@@ -42,9 +42,9 @@ e<%--
             <div id="<%=p.getNombre() + m.getCodigo()%>">
                 <div class="<%=p.getNombre() + "nombre"%>"><%= m.getCodigo()%></div>
                      <div id="<%=p.getNombre() + m.getCodigo()
-                        + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
+                             + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
                      <div id="<%=p.getNombre() + m.getCodigo()
-                        + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
+                             + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
             </div>
             <%
                 }
@@ -97,6 +97,11 @@ e<%--
                 {
                     try
                     {
+
+                        //Limpiar puntos
+                        $('.puntoMapa').remove();
+                        $('.puntoMapaDeLaMuerte').remove();
+
                         console.log('Entered cargarMicros()');
                         var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
                         if ('Please select an option' === selectedParadero)
@@ -138,6 +143,11 @@ e<%--
                 {
                     try
                     {
+                        //Borrar ultima micro
+                        $('.puntoMapa').remove();
+                        $('.puntoMapaDeLaMuerte').show();
+                        $('.puntoMapaDeLaMuerte').css({'background-color':'blue'});
+
                         console.log('Entered dibujarMicro()');
                         var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
                         var selectedMicro = $('#ddlMicros :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
