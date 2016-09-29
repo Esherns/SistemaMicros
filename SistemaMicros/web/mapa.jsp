@@ -98,32 +98,42 @@ e<%--
             <script>
                 function cargarMicros()
                 {
-                    var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
-                    if ('Please select an option' === selectedParadero)
+                    try
                     {
-                        $('#ddlMicros').html('<option>Please select an option</option>');
-                        $('#ddlMicros').prop('disabled', 'true');
-                        return;
+                        console.Log('Entered cargarMicros()');
+                        var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
+                        if ('Please select an option' === selectedParadero)
+                        {
+                            $('#ddlMicros').html('<option>Please select an option</option>');
+                            $('#ddlMicros').prop('disabled', 'true');
+                            return;
+                        }
+                        //alert('i = ' + i);
+                        //populate dropdownList
+                        var result = '<option>Please select an option</option>';
+                        console.Log('selectedParadero + nombre = ' + '.' + selectedParadero + 'nombre');
+                        $('.' + selectedParadero + 'nombre').each(function (index)
+                        {
+                            var nom = $(this).text();
+                            console.Log('foreach: nom = ' + nom);
+                            result += '<option>' + nom + '</option>';
+                        });
+                        $('#ddlMicros').html(result);
+                        $('#ddlMicros').prop('disabled', false);
+                        //draw on map
+                        var idX = parseFloat($('#' + selectedParadero + 'coordenadaX').text());
+                        var idY = parseFloat($('#' + selectedParadero + 'coordenadaY').text());
+                        console.Log('idX = ' + idX + '\nidY = ' + idY);
+                        var coords = ol.proj.fromLonLat([idX, idY]);
+                        console.Log(coords);
+
+                        agregarLugar(selectedParadero, coords, "puntoMapaDeLaMuerte");
+                        console.Log('Exiting cargarMicros()');
+
+                    } catch (err)
+                    {
+                        alert('Error en cargarMicros(): ' + err.message);
                     }
-                    //alert('i = ' + i);
-                    //populate dropdownList
-                    var result = '<option>Please select an option</option>';
-                    $('#' + selectedParadero).children().each(function (index)
-                    {
-                        var nom = $(this).find('.' + selectedParadero + 'nombre').text();
-                        result += '<option>' + nom + '</option>';
-                    });
-                    $('#ddlMicros').html(result);
-                    $('#ddlMicros').prop('disabled', false);
-
-                    //draw on map
-                    var idX = parseFloat($('#' + selectedParadero  + 'coordenadaX').text());
-                    var idY = parseFloat($('#' + selectedParadero  + 'coordenadaY').text());
-                    //alert('idX = ' + idX+'\nidY = '+idY);
-                    var coords = ol.proj.fromLonLat([idX, idY]);
-                    //alert(coords);
-
-                    agregarLugar(selectedParadero, coords, "puntoMapaDeLaMuerte");
                 }
 
                 function dibujarMicro()
@@ -171,9 +181,9 @@ e<%--
                     //Prueba 
 
 
-                    * /
-                <% /*                   String s1 = "<script>document.writeln(yx)</script>";
-                    String s2 = "<script>document.writeln(zx)</script>";
+                    
+                /* < %                   String s1 = "<script>document.writeln(yx) < /script>";
+                    String s2 = "<script>document.writeln(zx)< /script>";
                     String s3 = "";
                     for (Paradero p : paraderos)
                     {
@@ -194,8 +204,9 @@ e<%--
                             }
                         }
                     }
-                     */%>
+                     */ 
                     /*    
+                            %  >
                      var x = "< %=//s3%>";
                      var y = document.getElementById("ddlParaderos").selectedIndex;
                      var yx = document.getElementById("ddlParaderos")[y].text;
