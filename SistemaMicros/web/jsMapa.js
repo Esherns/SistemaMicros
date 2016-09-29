@@ -7,6 +7,7 @@
 /* global ol, ol */
 
 var map;
+var coordMicro, coordParadero;
 try
 {
 
@@ -14,7 +15,7 @@ try
     {
 
         //Centro inicial del mapa
-        var center = ol.proj.fromLonLat([-70.73015156724392,-33.365678279804115]);
+        var center = ol.proj.fromLonLat([-70.73015156724392, -33.365678279804115]);
 
         //Controles del mapa
         var interaction = new ol.interaction.DragRotateAndZoom();
@@ -87,16 +88,58 @@ try
         }
     }
 
+    function compararParaderoYMicro() //retruns true if coords are the same
+    {
+        try
+        {
+            console.log('Entered compararParaderoYMicro()');
+
+            console.log('coordMicro = ' + coordMicro
+                    + '\ncoordParadero = ' + coordParadero);
+            if (coordMicro == null || coordParadero == null ||
+                    coordMicro == undefined || coordParadero == undefined) {
+                console.log('coordMicro == null || cordParadero == null ||' +
+                        'coordMicro == undefined || cordParadero == undefined ');
+                return false;
+            }
+            console.log('Exiting compararParaderoYMicro() by returning '
+                    +(coordMicro[0] === coordParadero[0] && coordMicro[1] === coordParadero[1]));
+            return (coordMicro[0] === coordParadero[0] && coordMicro[1] === coordParadero[1]);
+        } catch (err)
+        {
+            alert('error on compararParaderoYMicro(): ' + err.message);
+            console.log('error on compararParaderoYMicro(): ' + err.message);
+        }
+    }
+
+
+
+
     function agregarLugar(nombre, coords, pointClass)
     {
         try
         {
             console.log('Entered agregarLugar()');
+
+            if (pointClass === 'puntoMapaDeLaMuerte') {
+                console.log("pointClass === 'puntoMapaDeLaMuerte'");
+                coordParadero = coords;
+            } else if (pointClass === 'puntoMapa') {
+                console.log("pointClass === 'puntoMapa'");
+                coordMicro = coords;
+            }
+            var style = "";
+            if (compararParaderoYMicro()) {
+                style += 'style="background-color:green;"';
+                $('.puntoMapa').remove();
+                $('.puntoMapaDeLaMuerte').hide();
+
+            }
             nombre += 'point';
-            console.log('nombre: '+nombre+'\ncoords: '+coords+'\npointClass: '+pointClass);
-            
-            var element = '<div class="'+pointClass+'" id="'+nombre+'"></div>';
-            console.log('element: '+element);
+            console.log('nombre: ' + nombre + '\ncoords: ' + coords + '\npointClass: ' + pointClass);
+
+            var element = '<div  class="' + pointClass + '" id="' + nombre + '" ' + style + ' ></div>';
+            console.log('element: ' + element);
             //console.log('');
             $('.mainContainer').prepend(element);
 //            selectedMicroconsole.log('New mainContainer html: \n'+$('.mainContainer').html());
@@ -104,12 +147,12 @@ try
                 element: document.getElementById(nombre)
             });
             nuevaUbicacion.setPosition(coords);
-            
-            console.log('nuevaUbicacion element: '+nuevaUbicacion.getElement());
-            console.log('nuevaUbicacion coords: '+nuevaUbicacion.getPosition());
-            
+
+            console.log('nuevaUbicacion element: ' + nuevaUbicacion.getElement());
+            console.log('nuevaUbicacion coords: ' + nuevaUbicacion.getPosition());
+
             map.addOverlay(nuevaUbicacion);
-            console.log('map Overlays: '+map.getOverlays());
+            console.log('map Overlays: ' + map.getOverlays());
         } catch (err)
         {
             alert("error on agregarLugar() : " + err.message);
