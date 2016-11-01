@@ -16,11 +16,23 @@ public class Paradero
    private String nombre;
    private String comuna;
    private ArrayList<Micro> micros;
-
-    public Paradero(String nombre, String comuna, ArrayList<Micro> micros) {
+   private Double[] coordenadas;
+   
+    public Paradero(String nombre, String comuna, ArrayList<Micro> micros, Double[] coordenadas) {
         this.nombre = nombre;
         this.comuna = comuna;
         this.micros = micros;
+        this.coordenadas = coordenadas;
+    }
+
+    public Double[] getCoordenadas()
+    {
+        return coordenadas;
+    }
+
+    public void setCoordenadas(Double[] coordenadas)
+    {
+        this.coordenadas = coordenadas;
     }
 
    

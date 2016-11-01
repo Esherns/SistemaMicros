@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Silvio
  */
+
 public class LoginServlet extends HttpServlet {
 
     /**
@@ -32,10 +33,11 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         Cliente c = (Cliente)session.getAttribute("Usuario");
         String username = request.getParameter("usuario");  
-        String password = request.getParameter("contraseña");
+        String password = request.getParameter("pass");
         String user = "";
         String pass = "";
         if (c != null) 
@@ -50,16 +52,22 @@ public class LoginServlet extends HttpServlet {
         }
 
         
-        try (PrintWriter out = response.getWriter()) 
+        try  
         {
-            if (username.equals(user) && password.equals(pass)){  
-                request.getRequestDispatcher("/FormularioJSP.jsp").forward(request, response);
+            if (username.equals(user) && password.equals(pass)){
+                
+                request.getRequestDispatcher("/mapa.jsp").include(request, response);
             } else {  
                 out.println("La contraseña o el usuario estan incorrectos");
                 request.getRequestDispatcher("/index.html").include(request, response);
             }
             out.close();
         }
+        catch(NullPointerException e)
+        {
+           out.println(password); 
+        }
+
         }
 
 
