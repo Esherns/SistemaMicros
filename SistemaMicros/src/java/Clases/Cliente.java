@@ -13,14 +13,14 @@ public class Cliente
 {
     private String nombre;
     private String mail;
-    private String Pais;
+    private String rut;
     private String numero;
     private String contraseña;
 
-    public Cliente(String nombre, String mail, String Pais, String numero, String contraseña) {
+    public Cliente(String nombre, String mail, String rut, String numero, String contraseña) {
         this.nombre = nombre;
         this.mail = mail;
-        this.Pais = Pais;
+        this.rut = rut;
         this.numero = numero;
         this.contraseña = contraseña;
     }
@@ -51,12 +51,12 @@ public class Cliente
         this.mail = mail;
     }
 
-    public String getPais() {
-        return Pais;
+    public String getRut() {
+        return rut;
     }
 
-    public void setPais(String Pais) {
-        this.Pais = Pais;
+    public void setRut(String rut) {
+        this.rut = rut;
     }
 
     public String getNumero() {

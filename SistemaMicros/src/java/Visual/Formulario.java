@@ -45,10 +45,10 @@ public class Formulario extends HttpServlet {
             String nombre = request.getParameter("nombre");
             String mail = request.getParameter("mail");
             String numero = request.getParameter("numero");
-            String pais = request.getParameter("pais");
+            String rut = request.getParameter("pais");
             String pass = request.getParameter("pass");
             
-            Cliente c = new Cliente(nombre,mail,pais,numero,pass);
+            Cliente c = new Cliente(nombre,mail,rut,numero,pass);
             session.setAttribute("Usuario", c);
             out.println("Se ha registrado con exito!");
             request.getRequestDispatcher("/index.html").include(request, response);
@@ -85,7 +85,7 @@ public class Formulario extends HttpServlet {
             }    
             if (request.getParameter("pais").trim().equals("") || request.getParameter("pais") == null) 
             {
-                return "El pais no puede estar vacio";
+                return "El rut no puede estar vacio";
             }  
             if (request.getParameter("pass").trim().equals("") || request.getParameter("pass") == null) 
             {
