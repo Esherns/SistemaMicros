@@ -41,7 +41,12 @@ public class LoginServlet extends HttpServlet {
         
         try  
         {
-            if (c.validate(username, password))
+            if (request.getParameter("anonimo")!= null) 
+            {
+                session.setAttribute("username", "Anonimo");
+                request.getRequestDispatcher("/mapa.jsp").include(request, response); 
+            }
+            else if (c.validate(username, password))
             {
                 session.setAttribute("username", username);
                 request.getRequestDispatcher("/mapa.jsp").include(request, response);
@@ -53,7 +58,7 @@ public class LoginServlet extends HttpServlet {
         }
         catch(NullPointerException e)
         {
-           out.println(password); 
+           out.println("error"); 
         }
 
         }
