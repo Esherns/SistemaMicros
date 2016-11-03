@@ -5,12 +5,14 @@
  */
 package Visual;
 
+import dao.ClienteDAO;
 import Clases.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,16 +43,31 @@ public class Formulario extends HttpServlet {
         
         if (validar.equals("true")) 
         {
+            ClienteDAO cd = new ClienteDAO();
             String nombre = request.getParameter("nombre");
             String mail = request.getParameter("mail");
             String numero = request.getParameter("numero");
-            String pais = request.getParameter("pais");
+            String rut = request.getParameter("pais");
             String pass = request.getParameter("pass");
             
-            Cliente c = new Cliente(nombre,mail,pais,numero,pass);
-            session.setAttribute("Usuario", c);
-            out.println("Se ha registrado con exito!");
-            request.getRequestDispatcher("/index.html").include(request, response);
+            Cliente c = new Cliente(nombre,mail,rut,numero,pass);
+            if (cd.validateUser(nombre) == true) 
+            {
+                out.println("El un usuario con ese nombre ya existe.");
+                request.getRequestDispatcher("/FormularioJSP.jsp").include(request, response);    
+            }
+            
+            else if (cd.create(c) == -1) 
+            {
+                out.println("El un usuario con ese rut ya existe.");
+                request.getRequestDispatcher("/FormularioJSP.jsp").include(request, response);
+            }
+            else
+            {
+
+                out.println("Se ha registrado con exito!");
+                request.getRequestDispatcher("/index.html").include(request, response);
+            }
         }
         else
         {
@@ -84,7 +101,7 @@ public class Formulario extends HttpServlet {
             }    
             if (request.getParameter("pais").trim().equals("") || request.getParameter("pais") == null) 
             {
-                return "El pais no puede estar vacio";
+                return "El rut no puede estar vacio";
             }  
             if (request.getParameter("pass").trim().equals("") || request.getParameter("pass") == null) 
             {

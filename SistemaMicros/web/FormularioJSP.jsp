@@ -15,7 +15,7 @@
         <form action="/SistemaMicros/Formulario" method="post">  
         Nombre:<input type="text" name="nombre"/><br/>  
         Mail:<input type="text" name="mail"/><br/>
-        País:<input type="text" name="pais"/><br/>
+        Rut:<input type="text" name="pais"/><br/>
         Numero:<input type="text" name="numero"/><br/>
         Contraseña:<input type="text" name="pass"/><br/><br/>
         <input type="submit" value="Registrarse"/>  

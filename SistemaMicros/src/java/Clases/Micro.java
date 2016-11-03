@@ -14,12 +14,43 @@ public class Micro
     private String codigo;
     private String horario;
     private String comuna;
+    private Paradero paraderoActual;
+    
+    public Micro(String codigo, String horario, String comuna,Paradero paraderoActual)
+    {
+        this.codigo = codigo;
+        this.horario = horario;
+        this.comuna = comuna;
+        this.paraderoActual = paraderoActual;
+    }
 
-    public Micro(String codigo, String horario, String comuna) {
+    public Micro(String codigo, String horario, String comuna)
+    {
         this.codigo = codigo;
         this.horario = horario;
         this.comuna = comuna;
     }
+
+    public Micro(String codigo, String horario)
+    {
+        this.codigo = codigo;
+        this.horario = horario;
+        this.comuna = comuna;
+    }
+
+    
+    
+    public Paradero getParaderoActual()
+    {
+        return paraderoActual;
+    }
+
+    public void setParaderoActual(Paradero paraderoActual)
+    {
+        this.paraderoActual = paraderoActual;
+    }
+
+    
     
     
 
