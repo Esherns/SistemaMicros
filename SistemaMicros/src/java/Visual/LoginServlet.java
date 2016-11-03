@@ -5,7 +5,7 @@
  */
 package Visual;
 
-import Clases.Cliente;
+import dao.ClienteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,27 +35,15 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        Cliente c = (Cliente)session.getAttribute("Usuario");
         String username = request.getParameter("usuario");  
         String password = request.getParameter("pass");
-        String user = "";
-        String pass = "";
-        if (c != null) 
-        {
-            user= c.getNombre();
-            pass= c.getContraseña();
-        }
-        else
-        {
-            user = "user";
-            pass = "pass";
-        }
-
+        ClienteDAO c = new ClienteDAO();
         
         try  
         {
-            if (username.equals(user) && password.equals(pass)){
-                
+            if (c.validate(username, password))
+            {
+                session.setAttribute("username", username);
                 request.getRequestDispatcher("/mapa.jsp").include(request, response);
             } else {  
                 out.println("La contraseña o el usuario estan incorrectos");

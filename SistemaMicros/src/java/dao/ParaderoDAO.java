@@ -21,10 +21,11 @@ import java.util.logging.Logger;
  *
  * @author Silvio
  */
-public class ParaderoDAO 
+public class ParaderoDAO implements ParaderoDAOInterface
 {
     private static final String FIND_MICROS = "SELECT * FROM paradero";
     
+    @Override
     public List<ParaderoBD> findAll()
     {
             try {

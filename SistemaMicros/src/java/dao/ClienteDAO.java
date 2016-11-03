@@ -20,25 +20,26 @@ import java.util.logging.Logger;
  *
  * @author Silvio
  */
-public class ClienteDAO 
+public class ClienteDAO implements ClienteDAOInterface
 {
-    private static final String INSERT_CLIENTE = "INSERT INTO cliente(nombre,email,rut,numero,contraseña) VALUES (?,?,?,?,?)";
+    private static final String INSERT_CLIENTE = "INSERT INTO cliente(rutCliente,nombre,numero,email,contraseña) VALUES(?,?,?,?,?)";
     private static final String VALIDATE_LOGIN = "SELECT COUNT(*) FROM cliente WHERE nombre=? AND contraseña=?";
+    private static final String VALIDATE_USER = "SELECT COUNT(*) FROM cliente WHERE nombre=?";
    
-    
+    @Override
     public int create(Cliente cliente)
     {
             try {
                 DBAccess acceso = DBAccess.getInstance();
 
-                PreparedStatement op = acceso.getConnection().prepareStatement(INSERT_CLIENTE,Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement op = acceso.getConnection().prepareStatement(INSERT_CLIENTE);
                 
                 try {
                     
-                    op.setString(1, cliente.getNombre());
-                    op.setString(2, cliente.getMail());
-                    op.setString(3, cliente.getRut());
-                    op.setString(4, cliente.getNumero());
+                    op.setString(1, cliente.getRut());
+                    op.setString(2, cliente.getNombre());
+                    op.setInt(3, Integer.parseInt(cliente.getNumero()));
+                    op.setString(4, cliente.getMail());
                     op.setString(5, cliente.getContraseña());
 
                     return op.executeUpdate();
@@ -52,9 +53,9 @@ public class ClienteDAO
                 return -1;
             }
     }
-    
-        public boolean validate(Cliente cliente){
-        if (cliente == null) {
+    @Override
+    public boolean validate(String usuario, String contraseña) {
+        if (usuario == null || contraseña == null) {
             return false;
         } else {
             try {
@@ -62,8 +63,35 @@ public class ClienteDAO
 
                 PreparedStatement op = acceso.getConnection().prepareStatement(VALIDATE_LOGIN);
                 try {
-                    op.setString(1, cliente.getNombre());
-                    op.setString(2, cliente.getContraseña());
+                    op.setString(1, usuario);
+                    op.setString(2, contraseña);
+
+                    ResultSet rs = op.executeQuery();
+
+                    if (rs.next()) {
+                        return (rs.getInt(1) == 1);
+                    }
+                    return false;
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return false;
+        }
+    }
+    @Override
+    public boolean validateUser(String usuario) {
+        if (usuario == null ) {
+            return false;
+        } else {
+            try {
+                DBAccess acceso = DBAccess.getInstance();
+
+                PreparedStatement op = acceso.getConnection().prepareStatement(VALIDATE_USER);
+                try {
+                    op.setString(1, usuario);
 
                     ResultSet rs = op.executeQuery();
 

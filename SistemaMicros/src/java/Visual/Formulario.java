@@ -5,6 +5,7 @@
  */
 package Visual;
 
+import dao.ClienteDAO;
 import Clases.Cliente;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +43,7 @@ public class Formulario extends HttpServlet {
         
         if (validar.equals("true")) 
         {
+            ClienteDAO cd = new ClienteDAO();
             String nombre = request.getParameter("nombre");
             String mail = request.getParameter("mail");
             String numero = request.getParameter("numero");
@@ -49,9 +51,23 @@ public class Formulario extends HttpServlet {
             String pass = request.getParameter("pass");
             
             Cliente c = new Cliente(nombre,mail,rut,numero,pass);
-            session.setAttribute("Usuario", c);
-            out.println("Se ha registrado con exito!");
-            request.getRequestDispatcher("/index.html").include(request, response);
+            if (cd.validateUser(nombre) == true) 
+            {
+                out.println("El un usuario con ese nombre ya existe.");
+                request.getRequestDispatcher("/FormularioJSP.jsp").include(request, response);    
+            }
+            
+            else if (cd.create(c) == -1) 
+            {
+                out.println("El un usuario con ese rut ya existe.");
+                request.getRequestDispatcher("/FormularioJSP.jsp").include(request, response);
+            }
+            else
+            {
+
+                out.println("Se ha registrado con exito!");
+                request.getRequestDispatcher("/index.html").include(request, response);
+            }
         }
         else
         {

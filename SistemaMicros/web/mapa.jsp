@@ -23,6 +23,11 @@ e<%--
     </head>
 
     <body>
+        <div class="username">
+            <p>
+                ${username}
+            </p>
+        </div>
         <%
 
             //Obteniendo información del servlet

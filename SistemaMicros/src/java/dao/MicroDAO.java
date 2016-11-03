@@ -21,10 +21,11 @@ import java.util.logging.Logger;
  *
  * @author Silvio
  */
-public class MicroDAO 
+public class MicroDAO implements MicroDAOInterface 
 {
     private static final String FIND_MICROS = "SELECT * FROM micro";
     
+    @Override
     public List<MicroBD> findAll()
     {
             try {
