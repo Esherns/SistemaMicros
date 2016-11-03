@@ -31,6 +31,13 @@ public class Micro
         this.comuna = comuna;
     }
 
+    public Micro(String codigo, String horario)
+    {
+        this.codigo = codigo;
+        this.horario = horario;
+        this.comuna = comuna;
+    }
+
     
     
     public Paradero getParaderoActual()

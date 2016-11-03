@@ -39,8 +39,8 @@ e<%--
             for (Paradero p : paraderos) {
         %>
         <div hidden="true" id="<%=p.getNombre()%>">
-            <div id="<%=p.getNombre() + "CoordenadaX"%>" ><%= p.getCoordenadas()[0]%></div>
-            <div id="<%=p.getNombre() + "CoordenadaY"%>" ><%= p.getCoordenadas()[1]%></div>
+            <div id="<%=p.getNombre() + "CoordenadaX"%>" ><%= p.getCoordenadas()[0] %></div>
+            <div id="<%=p.getNombre() + "CoordenadaY"%>" ><%= p.getCoordenadas()[1] %></div>
             <%
                 for (Micro m : p.getMicros()) {
             %> 
@@ -241,9 +241,9 @@ e<%--
                 <option><%= p.getNombre()%></option>
                 <%
                         }
-                    } catch (Exception ex) {
-                        System.out.println("Error while loading ddl: " + ex.getMessage());
-                    }
+                    } catch (Exception ex) {%>
+                       <%= ex.getMessage()%>
+                    <%}
                 %>
             </select>
             <select name="ddlMicros" onchange="dibujarMicro();

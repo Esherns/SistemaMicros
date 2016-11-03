@@ -6,9 +6,12 @@
 package Visual;
 
 import Clases.Micro;
+import Clases.MicroBD;
 import Clases.Paradero;
+import Clases.ParaderoBD;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,40 +29,54 @@ import javax.servlet.http.HttpSession;
 })
 public class ParaderosYMicrosServlet extends HttpServlet
 {
-    
+
     private static ArrayList<Paradero> paraderos;
     private static ArrayList<Micro> micros;
 
     static
     {
         //Agregar información aquí
-        getMicros().add(new Micro("303", "06:00 - 24:00", "Quilicura"));
-        micros.add(new Micro("315", "06:00 - 24:00", "Quilicura"));
-        micros.add(new Micro("314", "06:00 - 24:00", "Quilicura"));
-        micros.add(new Micro("307", "06:00 - 24:00", "Quilicura"));
+        // getMicros().add(new Micro("303", "06:00 - 24:00", "Quilicura"));
+        // micros.add(new Micro("315", "06:00 - 24:00", "Quilicura"));
+        // micros.add(new Micro("314", "06:00 - 24:00", "Quilicura"));
+        // micros.add(new Micro("307", "06:00 - 24:00", "Quilicura"));
 
-        ArrayList<Micro> m1 = new ArrayList<Micro>();
-        m1.add(micros.get(0));
-        m1.add(micros.get(1));
-        getParaderos().add(new Paradero("Supermercado", "Quilicura", m1,
-               new Double[]{-70.7331770990127,-33.36456717292718}));
+        ArrayList<MicroBD> microsFormatoDB = (ArrayList<MicroBD>)new dao.MicroDAO().findAll();
 
-        ArrayList<Micro> m2 = new ArrayList<Micro>();
-        m2.add(micros.get(2));
-        m2.add(micros.get(3));
-        getParaderos().add(new Paradero("Plaza", "Quilicura", m2,
-        new Double[]{-70.72995844819484,-33.36555283296405}));
+        for ( MicroBD mdb : microsFormatoDB) 
+        {
 
-        ArrayList<Micro> m3 = new ArrayList<Micro>();
-        m3.add(micros.get(1));
-        m3.add(micros.get(2));
-        getParaderos().add(new Paradero("Colegio", "Quilicura", m3,
-        new Double[]{-70.73143902757106,-33.367828768935084}));
+            Micro m = new Micro(mdb.getRecorrido_codigoRecorrido(),mdb.getHorario());
 
-        micros.get(0).setParaderoActual(paraderos.get(0));
-        micros.get(1).setParaderoActual(paraderos.get(1));
-        micros.get(2).setParaderoActual(paraderos.get(0));
-        micros.get(3).setParaderoActual(paraderos.get(2));
+            getMicros().add(m);
+            
+        }
+
+
+        ArrayList<ParaderoBD> paraderosFormatoDB = (ArrayList<ParaderoBD>) new dao.ParaderoDAO().findAll();
+        Random gn = new Random();
+
+        for (ParaderoBD pbd : paraderosFormatoDB ) 
+        {
+            Paradero p = new Paradero(pbd.getNombre(),pbd.getComuna(),
+                new ArrayList<Micro>(), new Double[]{pbd.getLatitud(),pbd.getLongitud()});
+
+            getMicros().stream().filter((m) -> (gn.nextBoolean())).map((m) -> 
+            {
+                p.getMicros().add(m);
+                return m;
+            }).forEachOrdered((m) ->
+            {
+                m.setComuna(p.getComuna());
+            });
+            getParaderos().add(p);
+        }         
+
+        getMicros().forEach((m) -> 
+        {
+            m.setParaderoActual(getParaderos().get(gn.nextInt()%getParaderos().size()));
+        });
+
         
     }
 
@@ -73,7 +90,7 @@ public class ParaderosYMicrosServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
         
@@ -90,7 +107,7 @@ public class ParaderosYMicrosServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    throws ServletException, IOException
     {
         processRequest(request, response);
     }
@@ -105,7 +122,7 @@ public class ParaderosYMicrosServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    throws ServletException, IOException
     {
         processRequest(request, response);
     }

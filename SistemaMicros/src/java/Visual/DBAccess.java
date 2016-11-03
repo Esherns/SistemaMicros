@@ -20,7 +20,7 @@ public class DBAccess {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //connect DB
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/mydb","root","root");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
         } catch(SQLException | ClassNotFoundException e)
         {
             System.err.println(e.getMessage());             
