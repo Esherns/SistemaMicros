@@ -49,7 +49,7 @@ public class SingletonConexion
         String clave = "root";
         String host = "localhost";
         String puerto = "3306";
-        String bd = "mybd";
+        String bd = "mydb";
         String URL = "jdbc:mysql://"+host+":"+puerto+"/"+bd;
  
         try { 
