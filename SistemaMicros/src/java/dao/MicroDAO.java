@@ -21,49 +21,61 @@ import java.util.logging.Logger;
  *
  * @author Silvio
  */
-public class MicroDAO implements MicroDAOInterface 
+public class MicroDAO implements MicroDAOInterface
 {
-  private static final String FIND_MICROS = "SELECT * FROM micro";
-  
-  @Override
-  public List<MicroBD> findAll()
-  {
-    try {
-      DBAccess acceso = DBAccess.getInstance();
 
-      PreparedStatement op = acceso.getConnection().prepareStatement(FIND_MICROS);
-      List<MicroBD> lista = new ArrayList<>();
-      
-      try {
+    private static final String FIND_MICROS = "SELECT * FROM micro";
 
-        ResultSet rs = op.executeQuery();
-        while (rs.next()) 
+    @Override
+    public List<MicroBD> findAll()
+    {
+        try
         {
-          
-         MicroBD a = new MicroBD();
-         //a.setHorario(rs.getString("horario"));
-         a.setIdMicro(rs.getInt("idMicro"));
-         a.setLatitud(rs.getDouble("latitud"));
-         a.setLongitud(rs.getDouble("longitud"));
-         a.setRecorrido_codigoRecorrido(rs.getString("Recorrido_codigoRecorrido"));
-         lista.add(a);
+            DBAccess acceso = DBAccess.getInstance();
 
-       }
+            PreparedStatement op = acceso.getConnection().prepareStatement(FIND_MICROS);
+            List<MicroBD> lista = new ArrayList<>();
 
-       return lista;
-       
-       
-     } catch (SQLException ex) {
-      
-      Logger.getLogger(MicroDAO.class.getName()).log(Level.SEVERE, null, ex);
-      return lista;
-      
+            try
+            {
+
+                ResultSet rs = op.executeQuery();
+                while (rs.next())
+                {
+
+                    MicroBD a = new MicroBD();
+                    //a.setHorario(rs.getString("horario"));
+                    a.setIdMicro(rs.getInt("idMicro"));
+                    a.setLatitud(rs.getDouble("latitud"));
+                    a.setLongitud(rs.getDouble("longitud"));
+                    a.setRecorrido_codigoRecorrido(rs.getString("Recorrido_codigoRecorrido"));
+                    lista.add(a);
+
+                }
+
+                return lista;
+
+            } catch (SQLException ex)
+            {
+
+                Logger.getLogger(MicroDAO.class.getName()).log(Level.SEVERE, null, ex);
+                return lista;
+
+            }
+        } catch (SQLException ex)
+        {
+            List<MicroBD> lista = new ArrayList<>();
+            Logger.getLogger(MicroDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error while retrieving micros: " + ex.getMessage());
+            return lista;
+
+        } catch (Exception ex)
+        {
+            List<MicroBD> lista = new ArrayList<>();
+            System.err.println("Error while retrieving micros: " + ex.getMessage());
+            Logger.getLogger(MicroDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return lista;
+
+        }
     }
-  } catch (SQLException ex) {
-    List<MicroBD> lista = new ArrayList<>();
-    Logger.getLogger(MicroDAO.class.getName()).log(Level.SEVERE, null, ex);
-    return lista;
-    
-  }
-} 
 }

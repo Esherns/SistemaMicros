@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -39,8 +39,10 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("pass");
         ClienteDAO c = new ClienteDAO();
         
+        
         try  
         {
+            Object anon = request.getParameter("anonimo");
             if (request.getParameter("anonimo")!= null) 
             {
                 session.setAttribute("username", "Anonimo");
@@ -59,9 +61,9 @@ public class LoginServlet extends HttpServlet {
         catch(NullPointerException e)
         {
            out.println("error"); 
-        }
+       }
 
-        }
+   }
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,7 +77,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -89,7 +91,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 

@@ -6,13 +6,13 @@ e<%--
     Document   : mapa
     Created on : 16-09-2016, 20:55:47
     Author     : Diego
---%>
+    --%>
 
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html> 
-<html>
+    <%@page import="java.util.HashMap"%>
+    <%@page import="java.util.ArrayList"%>
+    <%@page contentType="text/html" pageEncoding="UTF-8"%>
+    <!DOCTYPE html> 
+    <html>
     <head>
         <link href="mapa.css" rel="stylesheet" type="text/css"/>
         <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
@@ -20,88 +20,119 @@ e<%--
         <script src="jsMapa.js" type="text/javascript"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- JQuery -->
+        <script src="js/libs/jquery/jquery.min.js" type="text/javascript"></script>
+
+        <!-- Custom styles for this template -->
+        <link href="css/signin.css" rel="stylesheet">
     </head>
 
+
     <body>
-        <div class="username">
-            <p>
-                ${username}
-            </p>
-        </div>
-        <%
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Acciones</span>
+                        <span class="icon-bar">Registrarse en el sistema</span>
+                        <span class="icon-bar">Salir</span>
+                    </button>
+                    <a class="navbar-brand" href="#">Consulta por tu micro</a>
+                </div>
+                <p class="navbar-text">Logueado como ${username}</p>
 
-            //Obteniendo información del servlet
-            ArrayList<Paradero> paraderos;
-            paraderos = ParaderosYMicrosServlet.getParaderos();
-            ArrayList<Micro> micros;
-            micros = ParaderosYMicrosServlet.getMicros();
 
-            for (Paradero p : paraderos) {
-        %>
-        <div hidden="true" id="<%=p.getNombre()%>">
-            <div id="<%=p.getNombre() + "CoordenadaX"%>" ><%= p.getCoordenadas()[0] %></div>
-            <div id="<%=p.getNombre() + "CoordenadaY"%>" ><%= p.getCoordenadas()[1] %></div>
-            <%
-                for (Micro m : p.getMicros()) {
-            %> 
-            <div id="<%=p.getNombre() + m.getCodigo()%>">
-                <div class="<%=p.getNombre() + "nombre"%>"><%= m.getCodigo()%></div>
-                     <div id="<%=p.getNombre() + m.getCodigo()
-                             + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
-                     <div id="<%=p.getNombre() + m.getCodigo()
-                             + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
+
             </div>
-            <%
-                }
-            %>
-        </div> 
+        </nav>
         <%
-            }
-            for (Micro m : micros) {
-        %>
+        ArrayList<Paradero> paraderos = new ArrayList<Paradero>();
+        ArrayList<Micro> micros = new ArrayList<Micro>();
+        try
+        {
 
-        <div class="infoMicro" id="<%= m.getCodigo()%>" hidden="true" >
-            <table border="1">
-                <thead>
-                    <tr>
-                        <td>Codigo</td>
-                        <td><%= m.getCodigo()%></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Horario</td>
-                        <td><%= m.getHorario()%></td>
-                    </tr>
-                    <tr>
-                        <td>Comuna</td>
-                        <td><%= m.getComuna()%></td>
-                    </tr>
-                    <tr>
-                        <td>Paradero Actual</td>
-                        <td><%= m.getParaderoActual().getNombre()%></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        paraderos = ParaderosYMicrosServlet.getParaderos();
+        micros = ParaderosYMicrosServlet.getMicros();
 
-        <%
-            }
+    } catch (Exception ex)
+    {
 
-        %>   
-        <script type="text/javascript">
-            $(document).ready(function ()
+    System.out.println(ex.getMessage());
+}
+
+for (Paradero p : paraderos)
+    {
+%>
+<div hidden="true" id="<%=p.getNombre()%>">
+    <div id="<%=p.getNombre() + "CoordenadaX"%>" ><%= p.getCoordenadas()[0]%></div>
+    <div id="<%=p.getNombre() + "CoordenadaY"%>" ><%= p.getCoordenadas()[1]%></div>
+    <%
+    for (Micro m : p.getMicros())
+    {
+    %> 
+    <div id="<%=p.getNombre() + m.getCodigo()%>">
+        <div class="<%=p.getNombre() + "nombre"%>"><%= m.getCodigo()%></div>
+        <div id="<%=p.getNombre() + m.getCodigo()
+        + "coordenadaX"%>"><%= m.getParaderoActual().getCoordenadas()[0]%></div>
+        <div id="<%=p.getNombre() + m.getCodigo()
+        + "coordenadaY"%>"><%= m.getParaderoActual().getCoordenadas()[1]%></div>
+    </div>
+    <%
+}
+%>
+</div> 
+<%
+}
+for (Micro m : micros)
+    {
+%>
+
+<div class="infoMicro" id="<%= m.getCodigo()%>" hidden="true" >
+    <table border="1">
+        <thead>
+            <tr>
+                <td>Codigo</td>
+                <td><%= m.getCodigo()%></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Horario</td>
+                <td><%= m.getHorario()%></td>
+            </tr>
+            <tr>
+                <td>Comuna</td>
+                <td><%= m.getComuna()%></td>
+            </tr>
+            <tr>
+                <td>Paradero Actual</td>
+                <td><%= m.getParaderoActual().getNombre()%></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<%
+}
+
+%>   
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        crearMapa();
+    });
+
+</script>
+<div class="mainContainer">
+    <script>
+        function cargarMicros()
+        {
+            try
             {
-                crearMapa();
-            });
-
-        </script>
-        <div class="mainContainer">
-            <script>
-                function cargarMicros()
-                {
-                    try
-                    {
 
                         //Limpiar puntos
                         $('.puntoMapa').remove();
@@ -151,7 +182,7 @@ e<%--
                         //Borrar ultima micro
                         $('.puntoMapa').remove();
                         $('.puntoMapaDeLaMuerte').show();
-                        $('.puntoMapaDeLaMuerte').css({'background-color':'blue'});
+                        $('.puntoMapaDeLaMuerte').css({'background-color': 'blue'});
 
                         console.log('Entered dibujarMicro()');
                         var selectedParadero = $('#ddlParaderos :selected').text().replace(/ /g, '').replace(/(\n)+/g, '');
@@ -192,75 +223,73 @@ e<%--
                         alert('Error on Prueba: ' + err.message);
                         console.log('Error on Prueba: ' + err.message);
                     }
-                    //Prueba 
-
-
-
-                    /* < %                   String s1 = "<script>document.writeln(yx) < /script>";
-                     String s2 = "<script>document.writeln(zx)< /script>";
-                     String s3 = "";
-                     for (Paradero p : paraderos)
-                     {
-                     
-                     if (p.getNombre().equals(s1))
-                     {
-                     
-                     for (Micro m : p.getMicros())
-                     {
-                     if (m.getCodigo().equals("312"))
-                     {
-                     s3 = "Nombre: " + m.getCodigo()
-                     + " Horario: " + m.getHorario()
-                     + " Comuna: " + m.getComuna();
-                     break;
-                     }
-                     
-                     }
-                     }
-                     }
-                     */
-                    /*    
-                     %  >
-                     var x = "< %=//s3%>";
-                     var y = document.getElementById("ddlParaderos").selectedIndex;
-                     var yx = document.getElementById("ddlParaderos")[y].text;
-                     var z = document.getElementById("ddlMicros").selectedIndex;
-                     var zx = document.getElementById("ddlMicros")[z].text;
-                     document.getElementById("info").innerHTML = x;*/
                 }
 
             </script>      
-            <div id="mapContent"></div>
-            <input type="button" value="+" name="zoom+"  onclick="zoom(true)" />
-            <input type="button" value="-" name="zoom-" onclick="zoom(false)" />
-            <select onchange="cargarMicros()" name="ddlParaderos" id="ddlParaderos">
-                <option>Please select an option</option>
-                <% try {
-                        for (Paradero p : paraderos) {
-                %>
-                <option><%= p.getNombre()%></option>
-                <%
-                        }
-                    } catch (Exception ex) {%>
-                       <%= ex.getMessage()%>
-                    <%}
+            <div class="container">
+
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Basic panel example
+                        <div id="mapContent"></div>
+                    </div>
+                    <div class="panel-footer btn-group">
+                        <input type="button" class="btn btn-primary" value="+" name="zoom+"  onclick="zoom(true)" />
+                        <input type="button" class="btn btn-primary" value="-" name="zoom-" onclick="zoom(false)" />
+                    </div>
+                </div>
+
+                <<div class="form-group">
+                <label for="input" class="col-sm-2 control-label">:</label>
+                <div class="col-sm-2">
+                    <select onchange="cargarMicros()" name="ddlParaderos" id="ddlParaderos" class="form-control" >
+                        <option>Please select an option</option>
+                        <% try
+                        {
+                        for (Paradero p : paraderos)
+                        {
+                        %>
+                        <option><%= p.getNombre()%></option>
+                        <%
+                    }
+                } catch (Exception ex)
+                {%>
+                <%= ex.getMessage()%>
+                <%}
                 %>
             </select>
-            <select name="ddlMicros" onchange="dibujarMicro();
-                    mostrarInfo();" id="ddlMicros"  disabled="true"> 
-                <option>Please select an option</option>
-
-            </select>
-            <div id="infoMicro" hidden="true">
-
-            </div>
-            <form action="index.html">
-                <input class="boton" type="submit" value="Volver">
-            </form>
-
-            <div id="overlayInfo"></div>
-
         </div>
-        <p id="info"></p>
-    </body>
+    </div>
+
+    <select name="ddlMicros" onchange="dibujarMicro(); mostrarInfo();" id="ddlMicros"  disabled="true"> 
+        <option>Please select an option</option>
+        <% try
+        {
+        for (Micro p : micros)
+        {
+        %>
+        <option><%= p.getCodigo()%></option>
+        <%
+    }
+} catch (Exception ex)
+{%>
+    <%= ex.getMessage()%>
+    <%}
+    %>
+
+</select>
+<div id="infoMicro" hidden="true">
+
+</div>
+<form action="index.html">
+    <input class="boton" type="submit" value="Volver">
+</form>
+
+<div id="overlayInfo"></div>
+
+</div>
+<p id="info"></p>
+</div>
+</body>
 </html>
