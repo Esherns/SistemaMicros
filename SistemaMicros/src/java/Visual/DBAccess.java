@@ -1,4 +1,3 @@
-
 package Visual;
 
 import java.sql.Connection;
@@ -10,7 +9,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author hm/jb
+ * @author SilvioBelledone_DiegoMarquez
  */
 public class DBAccess {
     private static Connection conn;

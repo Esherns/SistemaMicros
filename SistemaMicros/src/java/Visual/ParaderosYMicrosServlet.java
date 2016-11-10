@@ -41,27 +41,29 @@ public class ParaderosYMicrosServlet extends HttpServlet
         // micros.add(new Micro("314", "06:00 - 24:00", "Quilicura"));
         // micros.add(new Micro("307", "06:00 - 24:00", "Quilicura"));
 
-        ArrayList<MicroBD> microsFormatoDB = (ArrayList<MicroBD>)new dao.MicroDAO().findAll();
+        ArrayList<MicroBD> microsFormatoDB = (ArrayList<MicroBD>) new dao.MicroDAO().findAll();
 
-        for ( MicroBD mdb : microsFormatoDB) 
+        for (MicroBD mdb : microsFormatoDB)
         {
 
-            Micro m = new Micro(mdb.getRecorrido_codigoRecorrido(),mdb.getHorario());
+            Micro m = new Micro(mdb.getRecorrido_codigoRecorrido(), mdb.getHorario());
 
             getMicros().add(m);
-            
-        }
 
+        }
 
         ArrayList<ParaderoBD> paraderosFormatoDB = (ArrayList<ParaderoBD>) new dao.ParaderoDAO().findAll();
         Random gn = new Random();
 
-        for (ParaderoBD pbd : paraderosFormatoDB ) 
+        for (ParaderoBD pbd : paraderosFormatoDB)
         {
-            Paradero p = new Paradero(pbd.getNombre(),pbd.getComuna(),
-                new ArrayList<Micro>(), new Double[]{pbd.getLatitud(),pbd.getLongitud()});
+            Paradero p = new Paradero(pbd.getNombre(), pbd.getComuna(),
+                    new ArrayList<Micro>(), new Double[]
+                    {
+                        pbd.getLatitud(), pbd.getLongitud()
+                    });
 
-            getMicros().stream().filter((m) -> (gn.nextBoolean())).map((m) -> 
+            getMicros().stream().filter((m) -> (gn.nextBoolean())).map((m) ->
             {
                 p.getMicros().add(m);
                 return m;
@@ -70,30 +72,34 @@ public class ParaderosYMicrosServlet extends HttpServlet
                 m.setComuna(p.getComuna());
             });
             getParaderos().add(p);
-        }         
+            try
+            {
 
-        getMicros().forEach((m) -> 
-        {
-            m.setParaderoActual(getParaderos().get(gn.nextInt()%getParaderos().size()));
-        });
+                for (Micro m : getMicros())
+                {
+                    m.setParaderoActual(getParaderos().get(gn.nextInt() % getParaderos().size()));
+                }
+            } catch (Exception e)
+            {
+                System.err.println(e.getMessage());
+            }
+            }
 
-        
-    }
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+        }
+        /**
+         * Processes requests for both HTTP <code>GET</code> and
+         * <code>POST</code> methods.
+         *
+         * @param request servlet request
+         * @param response servlet response
+         * @throws ServletException if a servlet-specific error occurs
+         * @throws IOException if an I/O error occurs
+         */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException
+            throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -107,7 +113,7 @@ public class ParaderosYMicrosServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException
+            throws ServletException, IOException
     {
         processRequest(request, response);
     }
@@ -122,7 +128,7 @@ public class ParaderosYMicrosServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException
+            throws ServletException, IOException
     {
         processRequest(request, response);
     }
