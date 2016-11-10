@@ -92,7 +92,7 @@ for (Micro m : micros)
     {
 %>
 <div class="infoMicro" id="<%= m.getCodigo()%>" hidden="true" >
-    <table border="1">
+    <table class="table table-hover" >
         <thead>
             <tr>
                 <td>Codigo</td>
@@ -100,11 +100,11 @@ for (Micro m : micros)
             </tr>
         </thead>
         <tbody>
-            <tr>
+<!--             <tr>
                 <td>Horario</td>
-                <td><%= m.getHorario()%></td>
+                <td>%= m.getHorario()%></td>
             </tr>
-            <tr>
+ -->            <tr>
                 <td>Comuna</td>
                 <td><%= m.getComuna()%></td>
             </tr>
@@ -222,6 +222,9 @@ for (Micro m : micros)
                     </div>
                 </div>
             </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <!-- Dummy column -->
+            </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <!-- Options column -->
                 <div class="form-group">
@@ -255,16 +258,13 @@ for (Micro m : micros)
                         <%}%>
                     </select>
                 </div>
-                <div id="infoMicro" hidden="true"></div>
+                <div id="infoMicro" class="table table-hover" hidden="true"></div>
                 <form action="index.html">
                     <input class="btn btn-block btn-primary " type="submit" value="Volver">
                     <input type="button" class="btn btn-block btn-primary" value="+" name="zoom+"  onclick="zoom(true)" />
                     <input type="button" class="btn btn-block btn-primary" value="-" name="zoom-" onclick="zoom(false)" />
                 </form>
                 <div id="overlayInfo"></div>
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <!-- Dummy column -->
             </div>
         </div>
     </div>
