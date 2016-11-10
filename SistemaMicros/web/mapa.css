@@ -19,15 +19,15 @@ and open the template in the editor.
 */
 .puntoMapa
 {
-    border-radius: 20px !important;
-    height: 30px !important;
-    width: 30px !important;
+    border-radius: 10px !important;
+    height: 15px !important;
+    width: 15px !important;
     background-color: red !important;
 }
 .puntoMapaDeLaMuerte
 {
-    border-radius: 20px !important;
-    height: 30px !important;
-    width: 30px !important;
+    border-radius: 10px !important;
+    height: 15px !important;
+    width: 15px !important;
     background-color: blue !important;
 }
