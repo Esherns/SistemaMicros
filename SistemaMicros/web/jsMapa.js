@@ -141,12 +141,11 @@ try
             var element = '<div  class="' + pointClass + '" id="' + nombre + '" ' + style + ' ></div>';
             console.log('element: ' + element);
             //console.log('');
-            $('.mainContainer').prepend(element);
+            $('.container').prepend(element);
 //            selectedMicroconsole.log('New mainContainer html: \n'+$('.mainContainer').html());
             var nuevaUbicacion = new ol.Overlay({
-                element: document.getElementById(nombre)
+                element: document.getElementById(nombre),
             });
-            nuevaUbicacion.setPosition(coords);
 
             console.log('nuevaUbicacion element: ' + nuevaUbicacion.getElement());
             console.log('nuevaUbicacion coords: ' + nuevaUbicacion.getPosition());

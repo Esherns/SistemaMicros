@@ -37,15 +37,15 @@
 
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del usuario" required>
+                            <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre del usuario" required>
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Correo electrónico">
+                            <input name="mail" type="email" class="form-control" id="email" placeholder="Correo electrónico">
                             <label for="pais">RUT</label>
-                            <input type="text" class="form-control" id="pais" placeholder="09.999.999-k">
+                            <input name="pais" type="text" class="form-control" id="pais" placeholder="09.999.999-k">
                             <label for="numero">Número de telefono</label>
-                            <input type="text" class="form-control" id="numero" placeholder="+56 9 ">
+                            <input name="numero" type="text" class="form-control" id="numero" placeholder="+56 9 ">
                             <label for="pass">Contraseña</label>
-                            <input type="password" class="form-control" id="pass" placeholder="xxxxxxx">
+                            <input name="pass" type="password" class="form-control" id="pass" placeholder="xxxxxxx">
                             <div id="dialog" title="" hidden="true" >
                                 <p id="dialogInfo"></p>
                             </div>
@@ -67,62 +67,62 @@
             </div>
         </body>
         <script type="text/javascript">
-            jQuery(document).ready(function($) {
-        //Establishing validations
-        $('#form').submit(function(event){
+        //     jQuery(document).ready(function($) {
+        //     //Establishing validations
+        //     $('#form').submit(function(event){
 
-            var validator = /^[a-zA-Z.]+$/g;
-            if (!$('#nombre').val().search(validator) == -1) {
-                $('#dialog').attr({
-                    title: 'Nombre incorrecto',
-                });
-                $('dialogInfo').val('El nombre debe tener solamente letras y espacios');
-                $('#dialog').dialog();
-                event.preventDefault();
-                return;
-            }
-            var validator = /^[a-zA-Z.]+@$[a-zA-Z.]+\.[a-zA-Z.]+/g;
-            if (!$('email').val().search(validator) == -1) {
-                $('#dialog').attr({
-                    title: 'Email incorrecto',
-                });
-                $('dialogInfo').val('email : /^[a-zA-Z.]+@$[a-zA-Z.]+\.[a-zA-Z.]+/g');
-                $('#dialog').dialog();
-                event.preventDefault();
-                return;
-            }
-            var validator = /^\d{1,2}\.?\d{3}\.?\d{3}-?\d/g;
-            if (!$('pais').val().search(validator) == -1) {
-                $('#dialog').attr({
-                    title: 'RUT incorrecto',
-                });
-                $('dialogInfo').val('Rut inválido');
-                $('#dialog').dialog();
-                event.preventDefault();
-                return;
+        //         var validator = /^[a-zA-Z.]+$/g;
+        //         if (!$('#nombre').val().search(validator) == -1) {
+        //             $('#dialog').attr({
+        //                 title: 'Nombre incorrecto',
+        //             });
+        //             $('dialogInfo').val('El nombre debe tener solamente letras y espacios');
+        //             $('#dialog').dialog();
+        //             event.preventDefault();
+        //             return;
+        //         }
+        //         var validator = /^[a-zA-Z.]+@$[a-zA-Z.]+\.[a-zA-Z.]+/g;
+        //         if (!$('email').val().search(validator) == -1) {
+        //             $('#dialog').attr({
+        //                 title: 'Email incorrecto',
+        //             });
+        //             $('dialogInfo').val('email : /^[a-zA-Z.]+@$[a-zA-Z.]+\.[a-zA-Z.]+/g');
+        //             $('#dialog').dialog();
+        //             event.preventDefault();
+        //             return;
+        //         }
+        //         var validator = /^\d{1,2}\.?\d{3}\.?\d{3}-?\d/g;
+        //         if (!$('pais').val().search(validator) == -1) {
+        //             $('#dialog').attr({
+        //                 title: 'RUT incorrecto',
+        //             });
+        //             $('dialogInfo').val('Rut inválido');
+        //             $('#dialog').dialog();
+        //             event.preventDefault();
+        //             return;
 
-            }
-            var validator = /^\+?[\d ]{8,12}$/g;
-            if (!$('numero').val().search(validator) == -1) {
-                $('#dialog').attr({
-                    title: 'Numero invalido',
-                });
-                $('dialogInfo').val('Solo se permiten caracteres numéricos y el signo + al principio');
-                $('#dialog').dialog();
-                event.preventDefault();
-                return;
-            }
-            var validator = /^.{8,32}/g;
-            if (!$('pass').val().search(validator) == -1) {
-                $('#dialog').attr({
-                    title: 'Email incorrecto',
-                });
-                $('dialogInfo').val('La contraseña debe tener entre 8 y 32 caracteres');
-                $('#dialog').dialog();
-                event.preventDefault();
-                return;
-            }
-        });
-    });
-</script>
-</html>
+        //         }
+        //         var validator = /^\+?[\d ]{8,12}$/g;
+        //         if (!$('numero').val().search(validator) == -1) {
+        //             $('#dialog').attr({
+        //                 title: 'Numero invalido',
+        //             });
+        //             $('dialogInfo').val('Solo se permiten caracteres numéricos y el signo + al principio');
+        //             $('#dialog').dialog();
+        //             event.preventDefault();
+        //             return;
+        //         }
+        //         var validator = /^.{8,32}/g;
+        //         if (!$('pass').val().search(validator) == -1) {
+        //             $('#dialog').attr({
+        //                 title: 'Email incorrecto',
+        //             });
+        //             $('dialogInfo').val('La contraseña debe tener entre 8 y 32 caracteres');
+        //             $('#dialog').dialog();
+        //             event.preventDefault();
+        //             return;
+        //         }
+        //     });
+        // });
+    </script>
+    </html>

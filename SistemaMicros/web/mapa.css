@@ -6,27 +6,28 @@ and open the template in the editor.
 /* 
     Created on : 25-09-2016, 19:47:08
     Author     : Diego
-*/
-#mapContent{
-    position: relative;
-    left: 10px;
-    height: 450px;
-    width: 450px;
-    border-width: 3px;
-    border-style: solid;
-}
+    */
 
+/*#mapContent{
+    position: relative !important;
+    left: 10px !important;
+    height: 450px !important;
+    width: 450px !important;
+    border-width: 3px !important;
+    border-style: solid !important;
+}
+*/
 .puntoMapa
 {
-    border-radius: 20px;
-    height: 30px;
-    width: 30px;
-    background-color: red;
+    border-radius: 20px !important;
+    height: 30px !important;
+    width: 30px !important;
+    background-color: red !important;
 }
 .puntoMapaDeLaMuerte
 {
-    border-radius: 20px;
-    height: 30px;
-    width: 30px;
-    background-color: blue;
+    border-radius: 20px !important;
+    height: 30px !important;
+    width: 30px !important;
+    background-color: blue !important;
 }
